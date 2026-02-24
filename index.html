@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Financiero Personal · José</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --cream: #faf8f4;
+    --white: #ffffff;
+    --sage: #7fa67a;
+    --sage-light: #c4ddc1;
+    --sage-pale: #edf5ec;
+    --amber: #d4892a;
+    --amber-light: #fdefd8;
+    --red-soft: #d95f52;
+    --red-pale: #fde8e6;
+    --blue: #4a7fa5;
+    --blue-pale: #e3eff8;
+    --stone: #8a8278;
+    --stone-light: #e8e4de;
+    --ink: #2c2a27;
+    --shadow: 0 2px 16px rgba(0,0,0,0.07);
+    --shadow-lg: 0 6px 32px rgba(0,0,0,0.10);
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--white);
+    border-bottom: 1px solid var(--stone-light);
+    padding: 0 clamp(16px, 4vw, 48px);
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    min-height: 64px;
+  }
+  .header-brand { display: flex; align-items: center; gap: 12px; }
+  .header-logo {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--sage), var(--blue));
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 18px;
+  }
+  .header-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--ink); }
+  .header-sub { font-size: 12px; color: var(--stone); }
+  .sepe-link {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--blue-pale); color: var(--blue);
+    border: 1px solid #b8d4e8; border-radius: 20px;
+    padding: 8px 16px; text-decoration: none;
+    font-size: 13px; font-weight: 500; transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .sepe-link:hover { background: var(--blue); color: white; }
+  .sepe-link svg { flex-shrink: 0; }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: clamp(20px, 4vw, 40px) clamp(16px, 4vw, 40px);
+    display: grid;
+    gap: 24px;
+  }
+
+  /* ALERT BANNER */
+  .alert-banner {
+    background: linear-gradient(135deg, #e8f4f0 0%, #e3eff8 100%);
+    border: 1px solid #b8d4e8;
+    border-radius: var(--radius);
+    padding: 16px 24px;
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 14px;
+  }
+  .alert-banner strong { color: var(--blue); }
+
+  /* CARDS ROW */
+  .cards-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .kpi-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    box-shadow: var(--shadow);
+    border-top: 3px solid transparent;
+    position: relative; overflow: hidden;
+  }
+  .kpi-card.green { border-color: var(--sage); }
+  .kpi-card.amber { border-color: var(--amber); }
+  .kpi-card.red   { border-color: var(--red-soft); }
+  .kpi-card.blue  { border-color: var(--blue); }
+  .kpi-card .label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--stone); margin-bottom: 6px; }
+  .kpi-card .value { font-family: 'DM Serif Display', serif; font-size: 1.8rem; line-height: 1; }
+  .kpi-card.green .value { color: var(--sage); }
+  .kpi-card.amber .value { color: var(--amber); }
+  .kpi-card.red .value   { color: var(--red-soft); }
+  .kpi-card.blue .value  { color: var(--blue); }
+  .kpi-card .sub { font-size: 12px; color: var(--stone); margin-top: 4px; }
+  .kpi-badge {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 20px; opacity: 0.15;
+  }
+
+  /* TWO COLUMNS */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* PANELS */
+  .panel {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .panel-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--stone-light);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .panel-header h2 { font-family: 'DM Serif Display', serif; font-size: 1.05rem; }
+  .panel-icon {
+    width: 30px; height: 30px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  .panel-icon.green { background: var(--sage-pale); }
+  .panel-icon.amber { background: var(--amber-light); }
+  .panel-icon.red   { background: var(--red-pale); }
+  .panel-icon.blue  { background: var(--blue-pale); }
+  .panel-body { padding: 20px 24px; }
+
+  /* FORM INPUTS */
+  .form-section { margin-bottom: 20px; }
+  .form-section-title {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--stone);
+    margin-bottom: 10px; padding-bottom: 6px;
+    border-bottom: 1px solid var(--stone-light);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .form-group label { font-size: 12px; font-weight: 500; color: var(--ink); }
+  .form-group small { font-size: 11px; color: var(--stone); }
+  .form-group input, .form-group select {
+    border: 1.5px solid var(--stone-light);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--cream);
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: var(--sage);
+    background: white;
+  }
+  .input-prefix {
+    display: flex; align-items: center;
+    border: 1.5px solid var(--stone-light);
+    border-radius: var(--radius-sm);
+    background: var(--cream); overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .input-prefix:focus-within { border-color: var(--sage); background: white; }
+  .input-prefix span {
+    padding: 8px 10px 8px 12px;
+    font-size: 13px; color: var(--stone);
+    background: var(--stone-light);
+    font-weight: 600;
+    border-right: 1px solid var(--stone-light);
+    white-space: nowrap;
+  }
+  .input-prefix input {
+    border: none; background: transparent;
+    padding: 8px 12px; flex: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; color: var(--ink);
+  }
+  .input-prefix input:focus { outline: none; }
+
+  .toggle-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px;
+    background: var(--cream);
+    border-radius: var(--radius-sm);
+    margin-bottom: 4px;
+  }
+  .toggle-label { font-size: 13px; font-weight: 500; }
+  .toggle { position: relative; display: inline-block; width: 40px; height: 22px; }
+  .toggle input { opacity: 0; width: 0; height: 0; }
+  .toggle-slider {
+    position: absolute; inset: 0;
+    background: var(--stone-light); border-radius: 22px;
+    cursor: pointer; transition: 0.3s;
+  }
+  .toggle-slider:before {
+    content: ''; position: absolute;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: white; top: 3px; left: 3px;
+    transition: 0.3s; box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  }
+  .toggle input:checked + .toggle-slider { background: var(--sage); }
+  .toggle input:checked + .toggle-slider:before { transform: translateX(18px); }
+
+  /* RECALC BUTTON */
+  .btn-recalc {
+    width: 100%; padding: 12px;
+    background: linear-gradient(135deg, var(--sage), #5c9b57);
+    color: white; border: none; border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-top: 16px;
+  }
+  .btn-recalc:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(127,166,122,0.4); }
+  .btn-recalc:active { transform: none; }
+
+  /* CHARTS */
+  .chart-container { position: relative; padding: 4px; }
+
+  /* TABLE */
+  .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 700px; }
+  thead tr { background: var(--ink); color: white; }
+  thead th { padding: 12px 14px; text-align: right; font-weight: 500; font-size: 12px; white-space: nowrap; }
+  thead th:first-child { text-align: left; }
+  tbody tr { border-bottom: 1px solid var(--stone-light); transition: background 0.15s; }
+  tbody tr:hover { background: var(--cream); }
+  tbody td { padding: 11px 14px; text-align: right; white-space: nowrap; }
+  tbody td:first-child { text-align: left; font-weight: 500; color: var(--stone); font-size: 12px; letter-spacing: 0.04em; }
+  .row-highlight td { background: var(--sage-pale); }
+  .row-total { border-top: 2px solid var(--ink) !important; }
+  .row-total td { font-weight: 600; }
+  .row-saldo td { background: linear-gradient(90deg, #e8f5e4, #d8efd4); font-weight: 700; font-size: 14px; }
+  .row-saldo td:first-child { color: var(--ink); }
+  td.positive { color: var(--sage); font-weight: 600; }
+  td.negative { color: var(--red-soft); font-weight: 600; }
+  .age-row th { background: var(--stone-light); color: var(--ink); font-size: 11px; }
+  .year-row th { background: #3a3831; font-size: 11px; }
+
+  /* LEGEND PILLS */
+  .legend-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .pill {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; padding: 4px 12px;
+    border-radius: 20px; font-weight: 500;
+  }
+  .pill .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .pill-green { background: var(--sage-pale); color: var(--sage); }
+  .pill-red { background: var(--red-pale); color: var(--red-soft); }
+  .pill-blue { background: var(--blue-pale); color: var(--blue); }
+  .pill-amber { background: var(--amber-light); color: var(--amber); }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 24px;
+    font-size: 12px; color: var(--stone);
+    border-top: 1px solid var(--stone-light);
+    background: var(--white);
+  }
+  footer a { color: var(--blue); text-decoration: none; }
+
+  /* TABS */
+  .tab-row { display: flex; gap: 4px; padding: 4px; background: var(--cream); border-radius: var(--radius-sm); margin-bottom: 16px; }
+  .tab-btn {
+    flex: 1; padding: 8px 12px; border: none; border-radius: 6px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    cursor: pointer; background: transparent; color: var(--stone); transition: all 0.2s;
+  }
+  .tab-btn.active { background: white; color: var(--ink); box-shadow: var(--shadow); }
+
+  /* INFO BOX */
+  .info-box {
+    background: var(--amber-light);
+    border: 1px solid #f0c97a;
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    font-size: 13px;
+    color: #7a5010;
+    display: flex; gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .chart-full { grid-column: 1 / -1; }
+  @media (max-width: 900px) { .chart-full { grid-column: 1; } }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap { margin-top: 8px; }
+  .progress-bar-track { height: 6px; background: var(--stone-light); border-radius: 3px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--stone); margin-top: 4px; }
+
+  /* STICKY CTA */
+  @media (max-width: 600px) {
+    .sepe-link .sepe-text { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">
+    <div class="header-logo">💼</div>
+    <div>
+      <div class="header-title">Panel Financiero · José</div>
+      <div class="header-sub">Previsión hasta jubilación · 54 años · Actualizado Feb 2026</div>
+    </div>
+  </div>
+  <a href="https://www.sepe.es/HomeSepe/Personas/distributiva-prestaciones/prestacion-contributiva/prestacion-contributiva-para-mayores-de-52.html" 
+     target="_blank" rel="noopener" class="sepe-link">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    <span class="sepe-text">Subsidio +52 años · SEPE</span>
+  </a>
+</header>
+
+<main>
+
+  <!-- BANNER -->
+  <div class="alert-banner">
+    <span style="font-size:20px">ℹ️</span>
+    <div>
+      <strong>Subsidio para mayores de 52 años:</strong> Tienes derecho a esta prestación si has agotado la prestación contributiva, tienes más de 52 años y acreditas al menos 6 años cotizados. La cuantía es el 80% del IPREM mensual (≈ <strong>500 €/mes</strong>). 
+      <a href="https://www.sepe.es/HomeSepe/Personas/distributiva-prestaciones/prestacion-contributiva/prestacion-contributiva-para-mayores-de-52.html" target="_blank" style="color:var(--blue);font-weight:600;">Ver condiciones completas en SEPE →</a>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="cards-row" id="kpiRow">
+    <!-- Rendered by JS -->
+  </div>
+
+  <!-- CONFIGURACIÓN + CHARTS -->
+  <div class="two-col">
+
+    <!-- PANEL CONFIGURACIÓN -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-icon green">⚙️</div>
+        <h2>Configuración de datos</h2>
+      </div>
+      <div class="panel-body">
+
+        <div class="form-section">
+          <div class="form-section-title">💰 Ingresos</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nómina mensual</label>
+              <div class="input-prefix"><span>€</span><input type="number" id="nomina" value="800" step="50"></div>
+            </div>
+            <div class="form-group">
+              <label>Meses trabajados/año</label>
+              <input type="number" id="mesesNomina" value="9" min="0" max="12">
+            </div>
+            <div class="form-group">
+              <label>Devolución IRPF anual</label>
+              <div class="input-prefix"><span>€</span><input type="number" id="irpf" value="1400" step="100"></div>
+            </div>
+            <div class="form-group">
+              <label>Año inicio nómina completa</label>
+              <select id="anoNominaFull">
+                <option value="2030">2030</option><option value="2029">2029</option>
+                <option value="2028">2028</option><option value="2027">2027</option>
+                <option value="2026">2026</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Subsidio +52 años (mensual)</label>
+              <div class="input-prefix"><span>€</span><input type="number" id="subsidio" value="500" step="10"></div>
+            </div>
+            <div class="form-group">
+              <label>Año inicio subsidio</label>
+              <select id="anoSubsidio">
+                <option value="9999">No activado</option>
+                <option value="2026">2026</option><option value="2027">2027</option>
+                <option value="2028">2028</option><option value="2029">2029</option>
+                <option value="2030" selected>2030</option><option value="2031">2031</option>
+                <option value="2032">2032</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Otros ingresos anuales</label>
+              <div class="input-prefix"><span>€</span><input type="number" id="otrosIngresos" value="0" step="100"></div>
+              <small>Alquileres, inversiones, etc.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">🏠 Gastos fijos</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Hipoteca mensual</label>
+              <div class="input-prefix"><span>€</span><input type="number" id="hipoteca" value="300" step="10"></div>
+            </div>
+            <div class="form-group">
+              <label>Año fin hipoteca</label>
+              <select id="anoFinHipoteca">
+                <option value="9999">Indefinida</option>
+                <option value="2030">2030</option><option value="2031" selected>2031</option>
+                <option value="2032">2032</option><option value="2033">2033</option>
+                <option value="2034">2034</option><option value="2035">2035</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Cuota autónomo mensual</label>
+              <div class="input-prefix"><span>€</span><input type="number" id="autonomos" value="400" step="10"></div>
+            </div>
+            <div class="form-group">
+              <label>Año fin cuota autónomo</label>
+              <select id="anoFinAutonomos">
+                <option value="9999">Indefinida</option>
+                <option value="2026">2026</option><option value="2027">2027</option>
+                <option value="2028">2028</option><option value="2029" selected>2029</option>
+                <option value="2030">2030</option><option value="2031">2031</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Gastos casa mensuales</label>
+              <div class="input-prefix"><span>€</span><input type="number" id="gastosCasa" value="1000" step="50"></div>
+            </div>
+            <div class="form-group">
+              <label>Otros gastos anuales</label>
+              <div class="input-prefix"><span>€</span><input type="number" id="otrosGastos" value="0" step="100"></div>
+              <small>Seguros, suscripciones, etc.</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">📈 Parámetros generales</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Saldo inicial en cuenta</label>
+              <div class="input-prefix"><span>€</span><input type="number" id="saldoInicial" value="50000" step="1000"></div>
+            </div>
+            <div class="form-group">
+              <label>IPC anual previsto (%)</label>
+              <div class="input-prefix"><span>%</span><input type="number" id="ipc" value="2" step="0.1" min="0" max="10"></div>
+            </div>
+            <div class="form-group">
+              <label>Año inicio previsión</label>
+              <select id="anoInicio">
+                <option value="2026" selected>2026</option>
+                <option value="2025">2025</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Horizonte de previsión</label>
+              <select id="horizonte">
+                <option value="10">10 años (hasta 2035)</option>
+                <option value="12">12 años (hasta 2037)</option>
+                <option value="15">15 años (hasta 2040)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-recalc" onclick="recalculate()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          Recalcular proyección
+        </button>
+      </div>
+    </div>
+
+    <!-- PANEL GRÁFICO SALDO -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-icon blue">📊</div>
+        <h2>Evolución del saldo</h2>
+      </div>
+      <div class="panel-body">
+        <div class="legend-pills">
+          <div class="pill pill-blue"><div class="dot" style="background:var(--blue)"></div>Saldo proyectado</div>
+          <div class="pill pill-green"><div class="dot" style="background:var(--sage)"></div>Ingresos anuales</div>
+          <div class="pill pill-red"><div class="dot" style="background:var(--red-soft)"></div>Gastos anuales</div>
+        </div>
+        <div class="chart-container" style="height:320px">
+          <canvas id="chartSaldo"></canvas>
+        </div>
+        <div id="retirementNote" style="margin-top:12px;font-size:12px;color:var(--stone);text-align:center"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PANEL GRÁFICO INGRESOS VS GASTOS -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-icon amber">📉</div>
+      <h2>Ingresos vs. Gastos anuales</h2>
+    </div>
+    <div class="panel-body">
+      <div style="height:260px">
+        <canvas id="chartBarras"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA DE PROYECCIÓN -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-icon green">📋</div>
+      <h2>Tabla de previsiones detallada</h2>
+    </div>
+    <div class="panel-body" style="padding:0">
+      <div class="table-wrapper">
+        <table id="tablaPrevisiones">
+          <!-- Rendered by JS -->
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL NOTAS -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-icon amber">📌</div>
+      <h2>Notas y supuestos del cálculo</h2>
+    </div>
+    <div class="panel-body">
+      <div class="info-box">
+        <span>⚠️</span>
+        <div>Esta proyección es orientativa. Las cifras reales dependerán de la evolución del IPC, posibles cambios en la legislación del subsidio de mayores de 52 años, y situación laboral. Se recomienda revisar anualmente con un asesor financiero.</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;font-size:13px;">
+        <div style="background:var(--sage-pale);border-radius:var(--radius-sm);padding:14px;">
+          <div style="font-weight:600;margin-bottom:6px;color:var(--sage)">🌱 Ingresos</div>
+          Los ingresos por nómina se aplicarán según meses trabajados. El subsidio +52 años se activa en el año que indiques y asume 12 mensualidades completas. La devolución IRPF es fija anual.
+        </div>
+        <div style="background:var(--red-pale);border-radius:var(--radius-sm);padding:14px;">
+          <div style="font-weight:600;margin-bottom:6px;color:var(--red-soft)">🏠 Gastos</div>
+          Los gastos de casa se actualizan con el IPC cada año. La hipoteca y autónomos se eliminan al llegar al año de fin que indiques. Los "Otros gastos" se suman fijos sin IPC salvo los de casa.
+        </div>
+        <div style="background:var(--blue-pale);border-radius:var(--radius-sm);padding:14px;">
+          <div style="font-weight:600;margin-bottom:6px;color:var(--blue)">📐 Metodología</div>
+          Saldo final = Saldo inicial + Ingresos año − Gastos año. El saldo se acumula año a año. El IPC se aplica progresivamente sobre gastos del hogar. Valores en euros corrientes.
+        </div>
+        <div style="background:var(--amber-light);border-radius:var(--radius-sm);padding:14px;">
+          <div style="font-weight:600;margin-bottom:6px;color:var(--amber)">📅 Jubilación</div>
+          La edad legal de jubilación ordinaria en 2026 es 66 años y 8 meses para trabajadores con menos de 37 años y 9 meses cotizados. A los 65 años si tienes el período mínimo completo.
+          <a href="https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/PrestacionesPensionesContributivasTrabajadores/10967/28399" target="_blank" style="display:block;margin-top:6px;color:var(--blue);font-size:12px;">Ver condiciones SS →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Panel Financiero Personal · José · <a href="https://www.sepe.es" target="_blank">SEPE</a> · <a href="https://www.seg-social.es" target="_blank">Seguridad Social</a> · Generado Feb 2026
+</footer>
+
+<script>
+// ─── Chart instances ───────────────────────────────────────────────────────────
+let chartSaldo = null;
+let chartBarras = null;
+
+// ─── Format helpers ────────────────────────────────────────────────────────────
+function fmt(v) {
+  const abs = Math.abs(v);
+  return (v < 0 ? '-' : '') + abs.toLocaleString('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+function fmtDec(v) {
+  return v.toLocaleString('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function val(id) { return parseFloat(document.getElementById(id).value) || 0; }
+function sel(id) { return document.getElementById(id).value; }
+
+// ─── RECALCULATE ───────────────────────────────────────────────────────────────
+function recalculate() {
+  const nominaMensual   = val('nomina');
+  const mesesNomina     = val('mesesNomina');
+  const irpfAnual       = val('irpf');
+  const subsidioMensual = val('subsidio');
+  const anoSubsidio     = parseInt(sel('anoSubsidio'));
+  const anoNominaFull   = parseInt(sel('anoNominaFull'));
+  const otrosIngresos   = val('otrosIngresos');
+
+  const hipotecaMensual = val('hipoteca');
+  const anoFinHipoteca  = parseInt(sel('anoFinHipoteca'));
+  const autonomosMensual= val('autonomos');
+  const anoFinAutonomos = parseInt(sel('anoFinAutonomos'));
+  const gastosCasaMens  = val('gastosCasa');
+  const otrosGastos     = val('otrosGastos');
+
+  const saldoInicial    = val('saldoInicial');
+  const ipc             = val('ipc') / 100;
+  const anoInicio       = parseInt(sel('anoInicio'));
+  const horizonte       = parseInt(sel('horizonte'));
+
+  const edadInicio      = 54; // José tiene 54 en 2026
+
+  const rows = [];
+  let saldo = saldoInicial;
+
+  for (let i = 0; i < horizonte; i++) {
+    const ano  = anoInicio + i;
+    const edad = edadInicio + i;
+    const ipcFactor = Math.pow(1 + ipc, i);
+
+    // Ingresos
+    const nominaAnual = (ano >= anoNominaFull) 
+      ? nominaMensual * 12
+      : nominaMensual * mesesNomina;
+    const subsidioAnual = (ano >= anoSubsidio) ? subsidioMensual * 12 : 0;
+    const ingresosTotal = nominaAnual + irpfAnual + subsidioAnual + otrosIngresos;
+
+    // Gastos
+    const hipotecaAnual  = (ano <= anoFinHipoteca) ? hipotecaMensual * 12 : 0;
+    const autonomosAnual = (ano <= anoFinAutonomos) ? autonomosMensual * 12 : 0;
+    const casaAnual      = gastosCasaMens * 12 * ipcFactor;
+    const gastosTotal    = hipotecaAnual + autonomosAnual + casaAnual + otrosGastos;
+
+    const subtotal = ingresosTotal - gastosTotal;
+    const saldoFin = saldo + subtotal;
+
+    rows.push({
+      ano, edad, ingresosTotal, nominaAnual, subsidioAnual, irpfAnual,
+      gastosTotal, hipotecaAnual, autonomosAnual, casaAnual, otrosGastos,
+      subtotal, saldoInicio: saldo, saldoFin
+    });
+
+    saldo = saldoFin;
+  }
+
+  renderKPIs(rows, saldoInicial);
+  renderTable(rows);
+  renderChartSaldo(rows, saldoInicial);
+  renderChartBarras(rows);
+}
+
+// ─── KPI CARDS ────────────────────────────────────────────────────────────────
+function renderKPIs(rows, saldoInicial) {
+  const last = rows[rows.length - 1];
+  const minRow = rows.reduce((m, r) => r.saldoFin < m.saldoFin ? r : m, rows[0]);
+  const breakEvenRow = rows.find(r => r.subtotal >= 0);
+  const ingresosMedio = rows.reduce((s, r) => s + r.ingresosTotal, 0) / rows.length;
+
+  const html = `
+    <div class="kpi-card blue">
+      <div class="kpi-badge">💰</div>
+      <div class="label">Saldo inicial</div>
+      <div class="value">${fmt(saldoInicial)}</div>
+      <div class="sub">Capital disponible hoy</div>
+    </div>
+    <div class="kpi-card ${last.saldoFin >= 0 ? 'green' : 'red'}">
+      <div class="kpi-badge">🏁</div>
+      <div class="label">Saldo en ${last.ano} (${last.edad} años)</div>
+      <div class="value">${fmt(Math.round(last.saldoFin))}</div>
+      <div class="sub">${last.saldoFin >= 0 ? 'Proyección positiva ✓' : '⚠ Déficit proyectado'}</div>
+    </div>
+    <div class="kpi-card ${minRow.saldoFin >= 0 ? 'amber' : 'red'}">
+      <div class="kpi-badge">📉</div>
+      <div class="label">Saldo mínimo (${minRow.ano})</div>
+      <div class="value">${fmt(Math.round(minRow.saldoFin))}</div>
+      <div class="sub">Punto de mayor tensión</div>
+    </div>
+    <div class="kpi-card ${breakEvenRow ? 'green' : 'red'}">
+      <div class="kpi-badge">⚖️</div>
+      <div class="label">Equilibrio ingresos/gastos</div>
+      <div class="value">${breakEvenRow ? breakEvenRow.ano : 'N/A'}</div>
+      <div class="sub">${breakEvenRow ? `A los ${breakEvenRow.edad} años` : 'No se alcanza en el horizonte'}</div>
+    </div>`;
+  document.getElementById('kpiRow').innerHTML = html;
+}
+
+// ─── TABLE ─────────────────────────────────────────────────────────────────────
+function renderTable(rows) {
+  const tbl = document.getElementById('tablaPrevisiones');
+  const cls = (v) => v >= 0 ? 'positive' : 'negative';
+  
+  let html = `<thead>
+    <tr class="age-row">
+      <th style="text-align:left">Concepto / Edad</th>
+      ${rows.map(r => `<th>${r.edad} años</th>`).join('')}
+    </tr>
+    <tr class="year-row">
+      <th style="text-align:left">AÑO</th>
+      ${rows.map(r => `<th>${r.ano}</th>`).join('')}
+    </tr>
+  </thead><tbody>`;
+
+  // INGRESOS
+  html += `<tr class="row-highlight"><td colspan="${rows.length+1}" style="background:#e8f5e4;color:var(--sage);font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;">INGRESOS</td></tr>`;
+  html += row('Nómina anual', rows, r => r.nominaAnual);
+  html += row('Subsidio +52 años', rows, r => r.subsidioAnual);
+  html += row('Devolución IRPF', rows, r => r.irpfAnual);
+  if (rows.some(r => r.ingresosTotal - r.nominaAnual - r.subsidioAnual - r.irpfAnual !== 0)) {
+    html += row('Otros ingresos', rows, r => r.ingresosTotal - r.nominaAnual - r.subsidioAnual - r.irpfAnual);
+  }
+  html += rowTotal('TOTAL INGRESOS', rows, r => r.ingresosTotal);
+
+  // GASTOS
+  html += `<tr class="row-highlight"><td colspan="${rows.length+1}" style="background:#fde8e6;color:var(--red-soft);font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;">GASTOS</td></tr>`;
+  html += row('Hipoteca', rows, r => r.hipotecaAnual);
+  html += row('Cuota autónomos', rows, r => r.autonomosAnual);
+  html += row('Gastos del hogar (c/IPC)', rows, r => r.casaAnual);
+  if (rows.some(r => r.otrosGastos !== 0)) {
+    html += row('Otros gastos', rows, r => r.otrosGastos);
+  }
+  html += rowTotal('TOTAL GASTOS', rows, r => r.gastosTotal);
+
+  // RESULTADO
+  html += `<tr class="row-highlight"><td colspan="${rows.length+1}" style="background:#e3eff8;color:var(--blue);font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;">RESULTADO</td></tr>`;
+  html += rowSignedTotal('Resultado anual (±)', rows, r => r.subtotal);
+
+  // SALDO
+  html += `<tr class="row-saldo"><td>💰 SALDO ACUMULADO</td>${rows.map(r => `<td class="${cls(r.saldoFin)}">${fmt(Math.round(r.saldoFin))}</td>`).join('')}</tr>`;
+
+  html += '</tbody>';
+  tbl.innerHTML = html;
+}
+
+function row(label, rows, fn) {
+  return `<tr><td>${label}</td>${rows.map(r => `<td>${fmt(fn(r))}</td>`).join('')}</tr>`;
+}
+function rowTotal(label, rows, fn) {
+  return `<tr class="row-total"><td>${label}</td>${rows.map(r => `<td>${fmt(fn(r))}</td>`).join('')}</tr>`;
+}
+function rowSignedTotal(label, rows, fn) {
+  const cls = v => v >= 0 ? 'positive' : 'negative';
+  return `<tr class="row-total"><td>${label}</td>${rows.map(r => `<td class="${cls(fn(r))}">${fmt(fn(r))}</td>`).join('')}</tr>`;
+}
+
+// ─── CHART SALDO ──────────────────────────────────────────────────────────────
+function renderChartSaldo(rows, saldoInicial) {
+  const ctx = document.getElementById('chartSaldo').getContext('2d');
+  if (chartSaldo) chartSaldo.destroy();
+
+  const labels = rows.map(r => `${r.ano}\n(${r.edad}a)`);
+  const saldos = rows.map(r => Math.round(r.saldoFin));
+  const ingresos = rows.map(r => Math.round(r.ingresosTotal));
+  const gastos = rows.map(r => Math.round(r.gastosTotal));
+
+  chartSaldo = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: 'Saldo acumulado',
+          data: saldos,
+          borderColor: '#4a7fa5',
+          backgroundColor: 'rgba(74,127,165,0.10)',
+          borderWidth: 2.5,
+          pointRadius: 5,
+          pointBackgroundColor: '#4a7fa5',
+          fill: true,
+          tension: 0.35,
+          yAxisID: 'y1'
+        },
+        {
+          label: 'Ingresos anuales',
+          data: ingresos,
+          borderColor: '#7fa67a',
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          borderDash: [4, 4],
+          pointRadius: 4,
+          tension: 0.35,
+          yAxisID: 'y2'
+        },
+        {
+          label: 'Gastos anuales',
+          data: gastos,
+          borderColor: '#d95f52',
+          backgroundColor: 'transparent',
+          borderWidth: 2,
+          borderDash: [4, 4],
+          pointRadius: 4,
+          tension: 0.35,
+          yAxisID: 'y2'
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(44,42,39,0.92)',
+          padding: 12,
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${ctx.raw.toLocaleString('es-ES', {style:'currency',currency:'EUR',maximumFractionDigits:0})}`
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: '#eee' }, ticks: { font: { size: 11 } } },
+        y1: {
+          type: 'linear', position: 'left',
+          title: { display: true, text: 'Saldo (€)', font: { size: 11 } },
+          grid: { color: '#eee' },
+          ticks: { callback: v => v.toLocaleString('es-ES', {style:'currency',currency:'EUR',maximumFractionDigits:0,notation:'compact'}) }
+        },
+        y2: {
+          type: 'linear', position: 'right',
+          title: { display: true, text: 'Flujo anual (€)', font: { size: 11 } },
+          grid: { display: false },
+          ticks: { callback: v => v.toLocaleString('es-ES', {style:'currency',currency:'EUR',maximumFractionDigits:0,notation:'compact'}) }
+        }
+      }
+    }
+  });
+
+  const lastRow = rows[rows.length - 1];
+  document.getElementById('retirementNote').innerHTML =
+    `Proyección hasta <strong>${lastRow.ano}</strong> (${lastRow.edad} años) · Saldo estimado: <strong style="color:${lastRow.saldoFin>=0?'var(--sage)':'var(--red-soft)'}">${fmt(Math.round(lastRow.saldoFin))}</strong>`;
+}
+
+// ─── CHART BARRAS ─────────────────────────────────────────────────────────────
+function renderChartBarras(rows) {
+  const ctx = document.getElementById('chartBarras').getContext('2d');
+  if (chartBarras) chartBarras.destroy();
+
+  chartBarras = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: rows.map(r => `${r.ano}`),
+      datasets: [
+        {
+          label: 'Ingresos',
+          data: rows.map(r => Math.round(r.ingresosTotal)),
+          backgroundColor: 'rgba(127,166,122,0.75)',
+          borderColor: '#7fa67a',
+          borderWidth: 1.5,
+          borderRadius: 4
+        },
+        {
+          label: 'Gastos',
+          data: rows.map(r => -Math.round(r.gastosTotal)),
+          backgroundColor: 'rgba(217,95,82,0.65)',
+          borderColor: '#d95f52',
+          borderWidth: 1.5,
+          borderRadius: 4
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: { labels: { font: { size: 12, family: 'DM Sans' }, boxWidth: 12 } },
+        tooltip: {
+          backgroundColor: 'rgba(44,42,39,0.92)',
+          padding: 12,
+          callbacks: {
+            label: ctx => {
+              const v = Math.abs(ctx.raw);
+              return ` ${ctx.dataset.label}: ${v.toLocaleString('es-ES', {style:'currency',currency:'EUR',maximumFractionDigits:0})}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { size: 12 } } },
+        y: {
+          grid: { color: '#eee' },
+          ticks: {
+            callback: v => (v<0?'-':'') + Math.abs(v).toLocaleString('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0,notation:'compact'})
+          }
+        }
+      }
+    }
+  });
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  recalculate();
+
+  // Live recalc on any input change
+  document.querySelectorAll('input, select').forEach(el => {
+    el.addEventListener('change', recalculate);
+    el.addEventListener('input', () => {
+      clearTimeout(el._t);
+      el._t = setTimeout(recalculate, 400);
+    });
+  });
+});
+</script>
+</body>
+</html>
