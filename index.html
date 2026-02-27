@@ -17,10 +17,79 @@
   --teal:#3a9e8f; --teal-pale:#e0f3f0;
   --purple:#8264b0; --purple-pale:#ede8f8;
   --stone:#8a8278; --stone-light:#e8e4de; --ink:#2c2a27;
+  --gold:#c8972a; --gold-pale:#fdf5e0; --gold-mid:#f0d080;
   --shadow:0 2px 16px rgba(0,0,0,0.07);
   --shadow-lg:0 6px 32px rgba(0,0,0,0.10);
   --radius:14px; --radius-sm:8px;
 }
+
+/* ══ CRYPTO-SPECIFIC ═════════════════════════════ */
+.tab-badge.gold{background:var(--gold-pale);color:var(--gold)}
+.kpi-card.gold{border-color:var(--gold)}.kpi-card.gold .value{color:var(--gold)}
+.panel-icon.gold{background:var(--gold-pale)}
+
+/* Market ticker strip */
+.ticker-strip{display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;background:var(--ink);border-radius:var(--radius);padding:0}
+.ticker-strip::-webkit-scrollbar{height:3px}.ticker-strip::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:2px}
+.ticker-item{display:flex;flex-direction:column;align-items:center;padding:12px 18px;border-right:1px solid rgba(255,255,255,.08);cursor:pointer;transition:background .15s;flex-shrink:0;min-width:100px}
+.ticker-item:last-child{border-right:none}
+.ticker-item:hover{background:rgba(255,255,255,.05)}
+.ticker-item.selected{background:rgba(200,151,42,.15)}
+.ticker-sym{font-size:11px;font-weight:700;letter-spacing:.08em;color:rgba(255,255,255,.5);margin-bottom:2px}
+.ticker-price{font-family:'DM Serif Display',serif;font-size:1rem;color:white;line-height:1}
+.ticker-chg{font-size:10px;margin-top:3px;font-weight:600}
+.ticker-chg.up{color:#6fcf97}.ticker-chg.dn{color:#eb5757}.ticker-chg.flat{color:rgba(255,255,255,.4)}
+
+/* Coin market table */
+.coin-table{width:100%;border-collapse:collapse;font-size:13px}
+.coin-table thead th{padding:10px 14px;text-align:right;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--stone);border-bottom:2px solid var(--stone-light);background:var(--cream)}
+.coin-table thead th:first-child{text-align:left}
+.coin-table tbody tr{border-bottom:1px solid var(--stone-light);transition:background .12s;cursor:pointer}
+.coin-table tbody tr:hover{background:#fdf9f3}
+.coin-table tbody td{padding:11px 14px;text-align:right;white-space:nowrap}
+.coin-table tbody td:first-child{text-align:left}
+.coin-rank{width:22px;height:22px;border-radius:50%;background:var(--stone-light);display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--stone)}
+.coin-name-cell{display:flex;align-items:center;gap:10px}
+.coin-logo{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.coin-name{font-weight:600;font-size:13px}.coin-sym{font-size:11px;color:var(--stone)}
+.chg-badge{display:inline-flex;align-items:center;gap:3px;border-radius:5px;padding:3px 8px;font-size:11px;font-weight:700}
+.chg-badge.up{background:#eafaf0;color:#27ae60}.chg-badge.dn{background:#fde8e6;color:#d95f52}.chg-badge.flat{background:var(--stone-light);color:var(--stone)}
+.signal-badge{display:inline-block;border-radius:5px;padding:3px 9px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.signal-badge.buy{background:#eafaf0;color:#27ae60}
+.signal-badge.sell{background:#fde8e6;color:#d95f52}
+.signal-badge.hold{background:var(--stone-light);color:var(--stone)}
+.signal-badge.watch{background:var(--amber-light);color:var(--amber)}
+.sparkline-cell canvas{display:block}
+
+/* Portfolio position cards */
+.crypto-pos-list{display:grid;gap:14px}
+.crypto-pos-card{background:var(--white);border:1.5px solid var(--stone-light);border-radius:var(--radius);overflow:hidden;transition:box-shadow .2s}
+.crypto-pos-card:hover{box-shadow:var(--shadow-lg)}
+.crypto-pos-header{padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.crypto-pos-left{display:flex;align-items:center;gap:12px}
+.crypto-pos-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pos-kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;padding:14px 18px 18px;border-top:1px solid var(--stone-light);background:var(--cream)}
+.pos-kpi{background:var(--white);border-radius:var(--radius-sm);padding:10px 12px}
+.pos-kpi .pk-label{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--stone);margin-bottom:3px}
+.pos-kpi .pk-value{font-family:'DM Serif Display',serif;font-size:1.15rem}
+.pos-kpi .pk-value.pos{color:var(--sage)}.pos-kpi .pk-value.neg{color:var(--red-soft)}.pos-kpi .pk-value.gold{color:var(--gold)}.pos-kpi .pk-value.blue{color:var(--blue)}
+.pos-kpi .pk-sub{font-size:9px;color:var(--stone);margin-top:2px}
+
+/* Buy history modal-like inline */
+.buy-history{margin-top:12px;border-top:1px solid var(--stone-light);padding-top:12px}
+.buy-history-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--stone);margin-bottom:8px}
+.buy-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:center;padding:6px 10px;background:var(--cream);border-radius:6px;margin-bottom:4px;font-size:12px}
+.buy-row-head{display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;padding:4px 10px;font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--stone)}
+.buy-row .pnl-cell{font-weight:700}
+
+/* Add buy form */
+.add-buy-form{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:12px 18px;background:var(--teal-pale);border-top:1px solid #8dd4c8}
+.add-buy-form .form-group label{font-size:11px}
+
+/* Refresh btn */
+.refresh-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;color:var(--stone);background:var(--cream);border:1px solid var(--stone-light);border-radius:20px;padding:4px 10px}
+.spinning{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;font-size:15px;line-height:1.6}
 
@@ -210,6 +279,10 @@ footer a{color:var(--blue);text-decoration:none}
     <span>🏘️</span><span class="tab-text">Patrimonio inmobiliario</span>
     <span class="tab-badge teal" id="propBadge">0 viviendas</span>
   </button>
+  <button class="tab-nav-btn" onclick="switchTab('crypto',this)">
+    <span>₿</span><span class="tab-text">Inversiones / Crypto</span>
+    <span class="tab-badge gold" id="cryptoBadge">0 activos</span>
+  </button>
 </nav>
 
 <!-- ══════════════════════════════════════════════════════════════════
@@ -220,7 +293,7 @@ footer a{color:var(--blue);text-decoration:none}
 
     <div>
       <div class="ov-title">Situación patrimonial global</div>
-      <div class="ov-sub">Visión consolidada de planificación financiera y patrimonio inmobiliario.</div>
+      <div class="ov-sub">Visión consolidada de planificación financiera, patrimonio inmobiliario e inversiones crypto/alternativas.</div>
     </div>
 
     <div class="cards-row" id="ovKpiRow">
@@ -275,6 +348,20 @@ footer a{color:var(--blue);text-decoration:none}
           <button class="btn btn-secondary" style="font-size:12px;padding:6px 14px" onclick="switchTab('inmobiliario',document.querySelectorAll('.tab-nav-btn')[2])">Ver detalle →</button>
         </div>
         <div class="panel-body" id="ovResumenInm"><p style="color:var(--stone);font-size:13px">Añade viviendas en el módulo de patrimonio.</p></div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-header-left"><div class="panel-icon gold">₿</div><h2>Resumen inversiones crypto</h2></div>
+          <button class="btn btn-secondary" style="font-size:12px;padding:6px 14px" onclick="switchTab('crypto',document.querySelectorAll('.tab-nav-btn')[3])">Ver detalle →</button>
+        </div>
+        <div class="panel-body" id="ovResumenCrypto"><p style="color:var(--stone);font-size:13px">Añade activos en el módulo de inversiones.</p></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><div class="panel-header-left"><div class="panel-icon purple">📊</div><h2>Distribución patrimonial actual</h2></div></div>
+        <div class="panel-body"><div style="height:240px"><canvas id="ovChartDonutTotal"></canvas></div></div>
       </div>
     </div>
 
@@ -459,6 +546,126 @@ footer a{color:var(--blue);text-decoration:none}
   </div>
 </div>
 
+<!-- ══════════════════════════════════════════════════════════════════
+     TAB 4 · INVERSIONES / CRYPTO
+══════════════════════════════════════════════════════════════════════ -->
+<div class="tab-pane" id="pane-crypto">
+  <div class="main-content">
+
+    <!-- KPIs PORTFOLIO -->
+    <div class="cards-row" id="cryptoKpiRow">
+      <div style="grid-column:1/-1;color:var(--stone);font-size:13px;padding:12px 0">Cargando precios de mercado…</div>
+    </div>
+
+    <!-- TICKER STRIP -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-header-left">
+          <div class="panel-icon gold">📡</div>
+          <h2>Precios de mercado en tiempo real</h2>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span class="refresh-badge" id="lastUpdated">⏱ Sin actualizar</span>
+          <button class="btn btn-secondary" style="font-size:12px;padding:6px 14px" onclick="fetchCryptoPrices()">
+            <svg id="refreshIcon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+            Actualizar
+          </button>
+        </div>
+      </div>
+      <div class="panel-body" style="padding:0">
+        <div class="ticker-strip" id="tickerStrip">
+          <div style="padding:16px 20px;color:var(--stone);font-size:13px">Cargando…</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARKET TABLE -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-header-left"><div class="panel-icon gold">📊</div><h2>Top 10 cryptomonedas · EUR</h2></div>
+        <div style="font-size:12px;color:var(--stone)">Señal basada en variación 24h y momentum</div>
+      </div>
+      <div class="panel-body" style="padding:0">
+        <div class="table-wrapper">
+          <table class="coin-table" id="coinTable">
+            <thead><tr>
+              <th style="text-align:left">#  Activo</th>
+              <th>Precio (€)</th>
+              <th>24h %</th>
+              <th>7d %</th>
+              <th>Cap. mercado</th>
+              <th>Vol. 24h</th>
+              <th>Señal</th>
+              <th>En cartera</th>
+            </tr></thead>
+            <tbody id="coinTableBody"><tr><td colspan="8" style="text-align:center;padding:24px;color:var(--stone)">Cargando datos de mercado…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHARTS ROW -->
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-header"><div class="panel-header-left"><div class="panel-icon gold">🍩</div><h2>Composición de cartera</h2></div></div>
+        <div class="panel-body"><div style="height:270px"><canvas id="crChartDonut"></canvas></div></div>
+      </div>
+      <div class="panel">
+        <div class="panel-header"><div class="panel-header-left"><div class="panel-icon gold">📉</div><h2>P&L por activo</h2></div></div>
+        <div class="panel-body"><div style="height:270px"><canvas id="crChartPnl"></canvas></div></div>
+      </div>
+    </div>
+
+    <!-- PORTFOLIO SECTION -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <div class="ov-title">Mi cartera de inversiones</div>
+        <div class="ov-sub">Añade tus posiciones para calcular precio medio, P&L y valor actual al precio de mercado.</div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <select id="addCoinSelect" style="font-size:13px;padding:8px 12px;border:1.5px solid var(--stone-light);border-radius:var(--radius-sm);background:var(--cream);font-family:'DM Sans',sans-serif;color:var(--ink)">
+          <option value="">— Selecciona activo —</option>
+        </select>
+        <button class="btn btn-teal" onclick="addCryptoPosition()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Añadir activo
+        </button>
+      </div>
+    </div>
+
+    <div class="crypto-pos-list" id="cryptoPosList"></div>
+
+    <div id="cryptoPosEmpty" style="text-align:center;padding:48px 24px;color:var(--stone)">
+      <div style="font-size:48px;margin-bottom:12px">₿</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:1.2rem;margin-bottom:8px;color:var(--ink)">Sin inversiones registradas</div>
+      <div style="font-size:13px;margin-bottom:20px">Selecciona un activo arriba y añádelo a tu cartera para seguir su evolución.</div>
+    </div>
+
+    <!-- SEÑALES Y CONSEJOS -->
+    <div class="panel">
+      <div class="panel-header"><div class="panel-header-left"><div class="panel-icon amber">💡</div><h2>Señales del mercado y consejos</h2></div></div>
+      <div class="panel-body">
+        <div class="info-box amber"><span>⚠️</span><div>Las señales son <strong>orientativas</strong> y se basan en variación de precio 24h, volatilidad histórica y momentum. No constituyen asesoramiento financiero. Consulta siempre con un profesional antes de invertir en activos de alta volatilidad.</div></div>
+        <div id="cryptoSignalsPanel" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px"></div>
+      </div>
+    </div>
+
+    <!-- GUÍA CRYPTO -->
+    <div class="panel">
+      <div class="panel-header"><div class="panel-header-left"><div class="panel-icon amber">📌</div><h2>Guía de inversión en cripto · Perfil conservador 54 años</h2></div></div>
+      <div class="panel-body">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;font-size:13px">
+          <div style="background:var(--gold-pale);border-radius:var(--radius-sm);padding:14px"><div style="font-weight:700;margin-bottom:6px;color:var(--gold)">⚖️ Peso recomendado</div>Para un perfil conservador de 54 años, se recomienda destinar <strong>máximo un 5-10% del patrimonio total</strong> a activos digitales. Priorizar BTC y ETH como "oro digital".</div>
+          <div style="background:var(--blue-pale);border-radius:var(--radius-sm);padding:14px"><div style="font-weight:700;margin-bottom:6px;color:var(--blue)">📅 DCA - Compra periódica</div>Aplicar Dollar Cost Averaging (compras periódicas) para suavizar la volatilidad. Mejor comprar cantidades fijas mensualmente que intentar sincronizar el mercado.</div>
+          <div style="background:var(--red-pale);border-radius:var(--radius-sm);padding:14px"><div style="font-weight:700;margin-bottom:6px;color:var(--red-soft)">🔐 Seguridad</div>Nunca guardes más del 20% en exchanges. Usa hardware wallets (Ledger, Trezor) para cantidades importantes. Haz copias de seguridad de tus seed phrases.</div>
+          <div style="background:var(--sage-pale);border-radius:var(--radius-sm);padding:14px"><div style="font-weight:700;margin-bottom:6px;color:var(--sage)">🏛️ Fiscalidad España</div>Las ganancias crypto tributan en el IRPF como rendimientos del capital. 2024: 19% hasta 6.000€, 21% hasta 50.000€, 23% hasta 200.000€, 27% superior. Declara cada operación.<a href="https://www.aeat.es" target="_blank" style="display:block;margin-top:6px;color:var(--blue);font-size:11px">Ver AEAT →</a></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <footer>
   Panel Financiero Personal · José ·
   <a href="https://www.sepe.es" target="_blank">SEPE</a> ·
@@ -484,7 +691,8 @@ function compact(v){const a=Math.abs(v);return a>=1e6?(v/1e6).toFixed(1)+'M€':
 
 /* ── STATE ───────────────────────────────────────────────────────── */
 let finRows=[], props=[], propCnt=0;
-let CH={saldo:null,barras:null,ovPat:null,ovFlujo:null,prDonut:null,prRent:null};
+let cryptoPrices={}, cryptoPortfolio=[], cryptoPosIdCnt=0;
+let CH={saldo:null,barras:null,ovPat:null,ovFlujo:null,prDonut:null,prRent:null,crDonut:null,crPnl:null,ovDonutTotal:null};
 
 /* ── TAB SWITCH ─────────────────────────────────────────────────── */
 function switchTab(name,btn){
@@ -816,6 +1024,7 @@ function renderOverview(){
   renderOvPatrimonio();
   renderOvFlujo();
   renderOvSummaries();
+  renderOvDonutTotal();
 }
 
 function renderOvKPIs(){
@@ -824,15 +1033,17 @@ function renderOvKPIs(){
   const saldoCuenta=lastFin?lastFin.saldoFin:0;
   const calcs=props.map(p=>({p,c:calcProp(p)}));
   const valInm=calcs.reduce((s,x)=>s+x.p.valActual,0);
-  const pat=saldoCuenta+valInm;
+  const {totVal:cryptoVal,totPnl:cryptoPnl}=getCryptoTotals();
+  const pat=saldoCuenta+valInm+cryptoVal;
   const netInm=calcs.reduce((s,x)=>s+x.c.benNeto,0);
   const netFin=lastFin?lastFin.subtot:0;
   const netTot=netFin+netInm;
   row.innerHTML=`
-    <div class="kpi-card purple"><div class="kpi-badge">🏗️</div><div class="label">Patrimonio neto total</div><div class="value">${fmt(Math.round(pat))}</div><div class="sub">Cuenta + inmuebles</div></div>
+    <div class="kpi-card purple"><div class="kpi-badge">🏗️</div><div class="label">Patrimonio neto total</div><div class="value">${fmt(Math.round(pat))}</div><div class="sub">Cuenta + inmuebles + crypto</div></div>
     <div class="kpi-card blue"><div class="kpi-badge">💳</div><div class="label">Saldo cuenta (proyectado)</div><div class="value">${fmt(Math.round(saldoCuenta))}</div><div class="sub">${lastFin?'En '+lastFin.ano:'—'}</div></div>
     <div class="kpi-card teal"><div class="kpi-badge">🏘️</div><div class="label">Valor cartera inmobiliaria</div><div class="value">${fmt(valInm)}</div><div class="sub">${props.length} ${props.length===1?'vivienda':'viviendas'}</div></div>
-    <div class="kpi-card ${netTot>=0?'green':'red'}"><div class="kpi-badge">📈</div><div class="label">Flujo neto anual total</div><div class="value">${fmt(Math.round(netTot))}</div><div class="sub">Finanzas + inmobiliario</div></div>`;
+    <div class="kpi-card gold"><div class="kpi-badge">₿</div><div class="label">Cartera crypto</div><div class="value">${fmt(Math.round(cryptoVal))}</div><div class="sub">${cryptoPnl>=0?'+':''}${fmt(Math.round(cryptoPnl))} P&L total</div></div>
+    <div class="kpi-card ${netTot>=0?'green':'red'}"><div class="kpi-badge">📈</div><div class="label">Flujo neto anual</div><div class="value">${fmt(Math.round(netTot))}</div><div class="sub">Finanzas + inmobiliario</div></div>`;
 }
 
 function renderOvWealthBar(){
@@ -842,9 +1053,10 @@ function renderOvWealthBar(){
   const calcs=props.map(p=>({p,c:calcProp(p)}));
   const valInm=calcs.reduce((s,x)=>s+x.p.valActual,0);
   const plus=calcs.reduce((s,x)=>s+x.c.plusvalia,0);
-  const total=saldo+valInm;
+  const {totVal:cryptoVal}=getCryptoTotals();
+  const total=saldo+valInm+cryptoVal;
   if(!total){div.innerHTML='<p style="color:var(--stone);font-size:13px">Configura los módulos para ver la composición patrimonial.</p>';return;}
-  const pS=(saldo/total*100).toFixed(1), pI=(valInm/total*100).toFixed(1);
+  const pS=(saldo/total*100).toFixed(1), pI=(valInm/total*100).toFixed(1), pC=(cryptoVal/total*100).toFixed(1);
   div.innerHTML=`
     <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:10px">
       <strong>Patrimonio total estimado: ${fmt(Math.round(total))}</strong>
@@ -853,11 +1065,13 @@ function renderOvWealthBar(){
     <div class="wealth-bar-track">
       <div class="wealth-bar-fill" style="width:${pS}%;background:var(--blue)"></div>
       <div class="wealth-bar-fill" style="width:${pI}%;background:var(--teal)"></div>
+      <div class="wealth-bar-fill" style="width:${pC}%;background:var(--gold)"></div>
     </div>
     <div class="wealth-legend">
       <div class="wealth-legend-item"><div class="wealth-legend-dot" style="background:var(--blue)"></div><span>Saldo cuenta: <strong>${fmt(Math.round(saldo))}</strong> (${pS}%)</span></div>
       <div class="wealth-legend-item"><div class="wealth-legend-dot" style="background:var(--teal)"></div><span>Inmuebles: <strong>${fmt(Math.round(valInm))}</strong> (${pI}%)</span></div>
-      ${plus!==0?`<div class="wealth-legend-item"><div class="wealth-legend-dot" style="background:var(--sage)"></div><span>Plusvalía latente: <strong style="color:${plus>=0?'var(--sage)':'var(--red-soft)'}">${fmt(Math.round(plus))}</strong></span></div>`:''}
+      ${cryptoVal>0?`<div class="wealth-legend-item"><div class="wealth-legend-dot" style="background:var(--gold)"></div><span>Crypto: <strong>${fmt(Math.round(cryptoVal))}</strong> (${pC}%)</span></div>`:''}
+      ${plus!==0?`<div class="wealth-legend-item"><div class="wealth-legend-dot" style="background:var(--sage)"></div><span>Plusvalía inmobiliaria: <strong style="color:${plus>=0?'var(--sage)':'var(--red-soft)'}">${fmt(Math.round(plus))}</strong></span></div>`:''}
     </div>`;
 }
 
@@ -868,14 +1082,18 @@ function renderOvPatrimonio(){
   const ipc=getVal('ipc')/100;
   const calcs=props.map(p=>({p,c:calcProp(p)}));
   const valInm0=calcs.reduce((s,x)=>s+x.p.valActual,0);
+  const {totVal:cryptoVal0}=getCryptoTotals();
   const labels=finRows.map(r=>`${r.ano}`);
   const saldos=finRows.map(r=>Math.round(r.saldoFin));
   const valInms=finRows.map((r,i)=>Math.round(valInm0*Math.pow(1+ipc,i+1)));
-  const pats=saldos.map((s,i)=>s+valInms[i]);
+  // Crypto assumed flat (no projection) as it's too volatile
+  const cryptoVals=finRows.map(()=>Math.round(cryptoVal0));
+  const pats=saldos.map((s,i)=>s+valInms[i]+cryptoVals[i]);
   CH.ovPat=new Chart(ctx,{type:'line',data:{labels,datasets:[
     {label:'Patrimonio total',data:pats,borderColor:'#8264b0',backgroundColor:'rgba(130,100,176,.08)',borderWidth:2.5,fill:true,tension:.35,pointRadius:4,pointBackgroundColor:'#8264b0'},
-    {label:'Saldo cuenta',    data:saldos,  borderColor:'#4a7fa5',backgroundColor:'transparent',borderWidth:2,borderDash:[5,4],tension:.35,pointRadius:3},
-    {label:'Valor inmuebles', data:valInms, borderColor:'#3a9e8f',backgroundColor:'transparent',borderWidth:2,borderDash:[5,4],tension:.35,pointRadius:3}
+    {label:'Saldo cuenta',   data:saldos, borderColor:'#4a7fa5',backgroundColor:'transparent',borderWidth:2,borderDash:[5,4],tension:.35,pointRadius:3},
+    {label:'Valor inmuebles',data:valInms,borderColor:'#3a9e8f',backgroundColor:'transparent',borderWidth:2,borderDash:[5,4],tension:.35,pointRadius:3},
+    {label:'Crypto (val. actual)',data:cryptoVals,borderColor:'#c8972a',backgroundColor:'transparent',borderWidth:2,borderDash:[3,6],tension:.35,pointRadius:3}
   ]},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{font:{size:11,family:'DM Sans'},boxWidth:12}},tooltip:{backgroundColor:'rgba(44,42,39,.92)',padding:12,callbacks:{label:c=>` ${c.dataset.label}: ${fmt(c.raw)}`}}},scales:{x:{grid:{color:'#eee'},ticks:{font:{size:11}}},y:{grid:{color:'#eee'},ticks:{callback:v=>compact(v)}}}}});
 }
 
@@ -927,6 +1145,40 @@ function renderOvSummaries(){
       ${ovRow('Plusvalía total',fmt(tP),tP>=0?'var(--sage)':'var(--red-soft)')}
     </div>`;
   }
+  // Crypto
+  const crEl=document.getElementById('ovResumenCrypto');
+  if(crEl && cryptoPortfolio.length){
+    const {totVal,totCost,totPnl}=getCryptoTotals();
+    const pct=totCost>0?(totPnl/totCost)*100:0;
+    const best=cryptoPortfolio.map(p=>({p,k:calcPosition(p)})).reduce((b,x)=>x.k.pnlPct>b.k.pnlPct?x:b);
+    crEl.innerHTML=`<div style="display:grid;gap:10px">
+      ${ovRow('Activos en cartera',cryptoPortfolio.length,'var(--gold)')}
+      ${ovRow('Valor actual crypto',fmt(Math.round(totVal)),'var(--gold)')}
+      ${ovRow('Capital invertido',fmt(Math.round(totCost)),'var(--ink)')}
+      ${ovRow('P&L total',(totPnl>=0?'+':'')+fmt(Math.round(totPnl))+' ('+pct.toFixed(1)+'%)',totPnl>=0?'var(--sage)':'var(--red-soft)')}
+      ${ovRow('Mejor activo',best.p.coin.name+' +'+best.k.pnlPct.toFixed(1)+'%','var(--sage)')}
+    </div>`;
+  } else if(crEl){
+    crEl.innerHTML='<p style="color:var(--stone);font-size:13px">Añade activos en el módulo de inversiones.</p>';
+  }
+}
+
+// ── Overview donut total ──────────────────────────────────────────
+function renderOvDonutTotal(){
+  const ctx=document.getElementById('ovChartDonutTotal')?.getContext('2d');
+  if(!ctx)return;
+  killChart(CH.ovDonutTotal);
+  const lastFin=finRows.length?finRows[finRows.length-1]:null;
+  const saldo=lastFin?Math.max(lastFin.saldoFin,0):0;
+  const calcs=props.map(p=>({p,c:calcProp(p)}));
+  const valInm=calcs.reduce((s,x)=>s+x.p.valActual,0);
+  const {totVal:cryptoVal}=getCryptoTotals();
+  const total=saldo+valInm+cryptoVal;
+  if(!total)return;
+  const labels=['Saldo cuenta','Inmuebles','Crypto'];
+  const data=[Math.round(saldo),Math.round(valInm),Math.round(cryptoVal)];
+  const colors=['#4a7fa5','#3a9e8f','#c8972a'];
+  CH.ovDonutTotal=new Chart(ctx,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:colors.map(c=>c+'cc'),borderColor:colors,borderWidth:2,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{size:12,family:'DM Sans'},boxWidth:14,padding:16}},tooltip:{backgroundColor:'rgba(44,42,39,.92)',padding:12,callbacks:{label:function(c){const tot=c.dataset.data.reduce(function(a,b){return a+b;},0);return ' '+c.label+': '+fmt(c.raw)+' ('+(c.raw/tot*100).toFixed(1)+'%)';}}}}}});
 }
 
 function ovRow(label,value,color){
@@ -936,6 +1188,436 @@ function ovRow(label,value,color){
   </div>`;
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   MODULE 4: INVERSIONES / CRYPTO
+══════════════════════════════════════════════════════════════════════ */
+
+// ── Coin catalog ──────────────────────────────────────────────────
+const COINS = [
+  {id:'bitcoin',     sym:'BTC', name:'Bitcoin',    logo:'🟠', color:'#f7931a'},
+  {id:'ethereum',    sym:'ETH', name:'Ethereum',   logo:'🔷', color:'#627eea'},
+  {id:'binancecoin', sym:'BNB', name:'BNB',        logo:'🟡', color:'#f3ba2f'},
+  {id:'solana',      sym:'SOL', name:'Solana',     logo:'🟣', color:'#9945ff'},
+  {id:'ripple',      sym:'XRP', name:'XRP',        logo:'🔵', color:'#0085c0'},
+  {id:'cardano',     sym:'ADA', name:'Cardano',    logo:'🔹', color:'#0033ad'},
+  {id:'dogecoin',    sym:'DOGE',name:'Dogecoin',   logo:'🐕', color:'#c2a633'},
+  {id:'polkadot',    sym:'DOT', name:'Polkadot',   logo:'⚫', color:'#e6007a'},
+  {id:'chainlink',   sym:'LINK',name:'Chainlink',  logo:'🔗', color:'#2a5ada'},
+  {id:'avalanche-2', sym:'AVAX',name:'Avalanche',  logo:'🔺', color:'#e84142'}
+];
+
+// ── Fallback prices (realistic Feb 2026 estimates in EUR) ─────────
+const FALLBACK = {
+  bitcoin:     {eur:91500, eur_24h_change:1.8,  eur_7d_change:5.2,  eur_market_cap:1.81e12, eur_24h_vol:3.2e10},
+  ethereum:    {eur:3280,  eur_24h_change:-0.7, eur_7d_change:2.1,  eur_market_cap:3.94e11, eur_24h_vol:1.4e10},
+  binancecoin: {eur:595,   eur_24h_change:0.9,  eur_7d_change:3.0,  eur_market_cap:8.8e10,  eur_24h_vol:1.6e9},
+  solana:      {eur:198,   eur_24h_change:3.2,  eur_7d_change:8.4,  eur_market_cap:9.4e10,  eur_24h_vol:4.1e9},
+  ripple:      {eur:2.18,  eur_24h_change:-1.4, eur_7d_change:-2.1, eur_market_cap:1.25e11, eur_24h_vol:2.8e9},
+  cardano:     {eur:0.88,  eur_24h_change:2.1,  eur_7d_change:6.0,  eur_market_cap:3.1e10,  eur_24h_vol:9.2e8},
+  dogecoin:    {eur:0.29,  eur_24h_change:-2.8, eur_7d_change:-4.3, eur_market_cap:4.2e10,  eur_24h_vol:1.8e9},
+  polkadot:    {eur:8.70,  eur_24h_change:1.1,  eur_7d_change:3.5,  eur_market_cap:1.2e10,  eur_24h_vol:4.0e8},
+  chainlink:   {eur:19.2,  eur_24h_change:4.1,  eur_7d_change:9.2,  eur_market_cap:1.14e10, eur_24h_vol:7.5e8},
+  'avalanche-2':{eur:29.5, eur_24h_change:-0.4, eur_7d_change:1.8,  eur_market_cap:1.22e10, eur_24h_vol:6.1e8}
+};
+
+// ── Fetch prices from CoinGecko (free, no key) ────────────────────
+async function fetchCryptoPrices(){
+  const icon=document.getElementById('refreshIcon');
+  if(icon) icon.classList.add('spinning');
+  try{
+    const ids=COINS.map(c=>c.id).join(',');
+    const url=`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=eur&include_24hr_change=true&include_7d_change=true&include_market_cap=true&include_24hr_vol=true`;
+    const res=await fetch(url,{signal:AbortSignal.timeout(6000)});
+    if(!res.ok) throw new Error('API error');
+    const data=await res.json();
+    // Merge, keeping 7d as fallback if missing
+    COINS.forEach(c=>{
+      if(data[c.id]){
+        cryptoPrices[c.id]={
+          eur:           data[c.id].eur||FALLBACK[c.id].eur,
+          eur_24h_change:data[c.id].eur_24h_change||FALLBACK[c.id].eur_24h_change,
+          eur_7d_change: data[c.id].eur_7d_change||FALLBACK[c.id].eur_7d_change,
+          eur_market_cap:data[c.id].eur_market_cap||FALLBACK[c.id].eur_market_cap,
+          eur_24h_vol:   data[c.id].eur_24h_vol||FALLBACK[c.id].eur_24h_vol,
+          live:true
+        };
+      } else { cryptoPrices[c.id]={...FALLBACK[c.id],live:false}; }
+    });
+    document.getElementById('lastUpdated').innerHTML=`✅ Actualizado ${new Date().toLocaleTimeString('es-ES')}`;
+  } catch(e){
+    // Use fallback
+    COINS.forEach(c=>{ cryptoPrices[c.id]={...FALLBACK[c.id],live:false}; });
+    document.getElementById('lastUpdated').innerHTML=`📋 Precios de referencia Feb 2026`;
+  }
+  if(icon) icon.classList.remove('spinning');
+  renderCryptoAll();
+  renderOverview();
+}
+
+function renderCryptoAll(){
+  renderTickerStrip();
+  renderCoinTable();
+  renderCryptoKPIs();
+  renderCryptoCharts();
+  renderCryptoPosList();
+  renderCryptoSignals();
+  populateCoinSelect();
+  updateCryptoBadge();
+}
+
+// ── Ticker strip ──────────────────────────────────────────────────
+function renderTickerStrip(){
+  const strip=document.getElementById('tickerStrip');
+  if(!strip)return;
+  strip.innerHTML=COINS.map(c=>{
+    const p=cryptoPrices[c.id];
+    if(!p)return'';
+    const chg=p.eur_24h_change||0;
+    const cls=chg>0.5?'up':chg<-0.5?'dn':'flat';
+    const arrow=chg>0.5?'▲':chg<-0.5?'▼':'—';
+    return `<div class="ticker-item" onclick="highlightCoin('${c.id}')">
+      <div class="ticker-sym">${c.sym}</div>
+      <div class="ticker-price">${fmtCoin(p.eur)}</div>
+      <div class="ticker-chg ${cls}">${arrow} ${chg>=0?'+':''}${chg.toFixed(2)}%</div>
+    </div>`;
+  }).join('');
+}
+
+function highlightCoin(id){
+  document.querySelectorAll('.ticker-item').forEach(el=>el.classList.remove('selected'));
+  const idx=COINS.findIndex(c=>c.id===id);
+  if(idx>=0) document.querySelectorAll('.ticker-item')[idx]?.classList.add('selected');
+}
+
+// ── Coin table ────────────────────────────────────────────────────
+function getSignal(c,p){
+  const chg24=p.eur_24h_change||0, chg7=p.eur_7d_change||0;
+  if(chg24>5 && chg7>10)  return{label:'COMPRA',cls:'buy',tip:'Momentum alcista fuerte. Posible continuación de tendencia positiva.'};
+  if(chg24>2 && chg7>5)   return{label:'ACUMULAR',cls:'buy',tip:'Tendencia positiva moderada. Buen momento para acumular posiciones.'};
+  if(chg24<-5 && chg7<-10)return{label:'VENTA',cls:'sell',tip:'Corrección significativa. Considera reducir exposición o usar stop-loss.'};
+  if(chg24<-2 && chg7<-5) return{label:'PRECAUCIÓN',cls:'sell',tip:'Debilidad de precio. Espera confirmación antes de añadir posiciones.'};
+  if(Math.abs(chg24)<1)   return{label:'NEUTRAL',cls:'hold',tip:'Precio estable. Mantener posiciones actuales sin cambios.'};
+  return{label:'VIGILAR',cls:'watch',tip:'Volatilidad moderada. Monitorea de cerca antes de actuar.'};
+}
+
+function renderCoinTable(){
+  const tbody=document.getElementById('coinTableBody');
+  if(!tbody||!Object.keys(cryptoPrices).length)return;
+  const inPortfolio=new Set(cryptoPortfolio.map(p=>p.coinId));
+  tbody.innerHTML=COINS.map((c,i)=>{
+    const p=cryptoPrices[c.id]; if(!p)return'';
+    const chg24=p.eur_24h_change||0, chg7=p.eur_7d_change||0;
+    const cls24=chg24>0?'up':chg24<0?'dn':'flat';
+    const cls7 =chg7>0?'up':chg7<0?'dn':'flat';
+    const sig=getSignal(c,p);
+    const inCart=inPortfolio.has(c.id);
+    const pos=cryptoPortfolio.find(p=>p.coinId===c.id);
+    const cartBadge=inCart
+      ?`<span style="color:var(--sage);font-weight:700;font-size:11px">✓ ${fmtCoin(pos.qty*p.eur)}</span>`
+      :`<span style="color:var(--stone-light);font-size:11px">—</span>`;
+    return `<tr onclick="highlightCoin('${c.id}')">
+      <td>
+        <div class="coin-name-cell">
+          <div class="coin-logo" style="background:${c.color}22">${c.logo}</div>
+          <div><div class="coin-name">${c.name}</div><div class="coin-sym">${c.sym}</div></div>
+        </div>
+      </td>
+      <td style="font-family:'DM Serif Display',serif;font-size:1.05rem">${fmtCoin(p.eur)}</td>
+      <td><span class="chg-badge ${cls24}">${chg24>=0?'+':''}${chg24.toFixed(2)}%</span></td>
+      <td><span class="chg-badge ${cls7}">${chg7>=0?'+':''}${chg7.toFixed(2)}%</span></td>
+      <td style="color:var(--stone)">${compactNum(p.eur_market_cap)}</td>
+      <td style="color:var(--stone)">${compactNum(p.eur_24h_vol)}</td>
+      <td><span class="signal-badge ${sig.cls}" title="${sig.tip}">${sig.label}</span></td>
+      <td>${cartBadge}</td>
+    </tr>`;
+  }).join('');
+}
+
+function fmtCoin(v){
+  if(!v && v!==0) return'—';
+  if(v>=1000)  return v.toLocaleString('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+  if(v>=1)     return v.toLocaleString('es-ES',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:4});
+  return v.toLocaleString('es-ES',{style:'currency',currency:'EUR',minimumFractionDigits:4,maximumFractionDigits:6});
+}
+function compactNum(v){
+  if(!v)return'—';
+  if(v>=1e12)return(v/1e12).toFixed(2)+'B€';
+  if(v>=1e9) return(v/1e9).toFixed(1)+'K M€';
+  if(v>=1e6) return(v/1e6).toFixed(0)+'M€';
+  return v.toLocaleString('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+}
+
+// ── Portfolio management ──────────────────────────────────────────
+function populateCoinSelect(){
+  const sel=document.getElementById('addCoinSelect');
+  if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— Selecciona activo —</option>'+COINS.map(c=>`<option value="${c.id}">${c.logo} ${c.name} (${c.sym})</option>`).join('');
+  if(cur)sel.value=cur;
+}
+
+function addCryptoPosition(){
+  const selEl=document.getElementById('addCoinSelect');
+  const coinId=selEl?.value;
+  if(!coinId){alert('Selecciona un activo primero.');return;}
+  // Check if already exists → add buy to existing
+  const existing=cryptoPortfolio.find(p=>p.coinId===coinId);
+  if(existing){
+    // Scroll to it and open buy form
+    document.getElementById('crpos_'+existing.id)?.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+  const coin=COINS.find(c=>c.id===coinId);
+  cryptoPosIdCnt++;
+  const id=cryptoPosIdCnt;
+  const price=cryptoPrices[coinId]?.eur||0;
+  const pos={id, coinId, coin, buys:[
+    {date:new Date().toISOString().slice(0,10), qty:0.01, priceEur:price, note:'Primera compra'}
+  ]};
+  cryptoPortfolio.push(pos);
+  selEl.value='';
+  renderCryptoPosList();
+  renderCryptoKPIs();
+  renderCryptoCharts();
+  renderCoinTable();
+  renderCryptoSignals();
+  updateCryptoBadge();
+  renderOverview();
+  setTimeout(()=>document.getElementById('crpos_'+id)?.scrollIntoView({behavior:'smooth',block:'center'}),100);
+}
+
+function removeCryptoPos(id){
+  cryptoPortfolio=cryptoPortfolio.filter(p=>p.id!==id);
+  renderCryptoPosList();
+  renderCryptoKPIs();
+  renderCryptoCharts();
+  renderCoinTable();
+  updateCryptoBadge();
+  renderOverview();
+}
+
+function updateCryptoBadge(){
+  const b=document.getElementById('cryptoBadge');
+  if(b) b.textContent=cryptoPortfolio.length+(cryptoPortfolio.length===1?' activo':' activos');
+}
+
+function calcPosition(pos){
+  const price=cryptoPrices[pos.coinId]?.eur||0;
+  const totalQty=pos.buys.reduce((s,b)=>s+b.qty,0);
+  const totalCost=pos.buys.reduce((s,b)=>s+(b.qty*b.priceEur),0);
+  const avgBuy=totalQty>0?totalCost/totalQty:0;
+  const currentVal=totalQty*price;
+  const pnlAbs=currentVal-totalCost;
+  const pnlPct=totalCost>0?(pnlAbs/totalCost)*100:0;
+  return{totalQty,totalCost,avgBuy,currentVal,pnlAbs,pnlPct,price};
+}
+
+function addBuyToCryptoPos(posId){
+  const pos=cryptoPortfolio.find(p=>p.id===posId);
+  if(!pos)return;
+  const date=document.getElementById(`crb_${posId}_date`)?.value||new Date().toISOString().slice(0,10);
+  const qty=parseFloat(document.getElementById(`crb_${posId}_qty`)?.value)||0;
+  const price=parseFloat(document.getElementById(`crb_${posId}_price`)?.value)||cryptoPrices[pos.coinId]?.eur||0;
+  const note=document.getElementById(`crb_${posId}_note`)?.value||'';
+  if(!qty||!price){alert('Introduce cantidad y precio válidos.');return;}
+  pos.buys.push({date,qty,priceEur:price,note});
+  renderCryptoPosList();
+  renderCryptoKPIs();
+  renderCryptoCharts();
+  updateCryptoBadge();
+  renderOverview();
+}
+
+function removeBuy(posId, buyIdx){
+  const pos=cryptoPortfolio.find(p=>p.id===posId);
+  if(!pos)return;
+  pos.buys.splice(buyIdx,1);
+  if(!pos.buys.length){removeCryptoPos(posId);return;}
+  renderCryptoPosList();
+  renderCryptoKPIs();
+  renderCryptoCharts();
+  renderOverview();
+}
+
+// ── Render portfolio cards ────────────────────────────────────────
+function renderCryptoPosList(){
+  const list=document.getElementById('cryptoPosList');
+  const empty=document.getElementById('cryptoPosEmpty');
+  if(!cryptoPortfolio.length){list.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  list.innerHTML=cryptoPortfolio.map(pos=>{
+    const c=pos.coin, k=calcPosition(pos);
+    const price=cryptoPrices[pos.coinId]?.eur||0;
+    const pnlColor=k.pnlAbs>=0?'var(--sage)':'var(--red-soft)';
+    const pnlSign=k.pnlAbs>=0?'+':'';
+    // Precompute signal and 24h change BEFORE template literal (avoids nested backtick issues)
+    const sig=getSignal(c,cryptoPrices[pos.coinId]||{});
+    const sigHtml='<span class="signal-badge '+sig.cls+'">'+sig.label+'</span>';
+    const p2=cryptoPrices[pos.coinId]||{};
+    const chg24val=(p2.eur_24h_change||0);
+    const chg24txt='24h: '+(chg24val>=0?'+':'')+chg24val.toFixed(2)+'%';
+    const histRows=pos.buys.map((b,i)=>{
+      const bVal=b.qty*price;
+      const bCost=b.qty*b.priceEur;
+      const bPnl=bVal-bCost;
+      return `<div class="buy-row">
+        <span style="color:var(--stone)">${b.date}</span>
+        <span>${b.qty.toLocaleString('es-ES',{maximumFractionDigits:8})} ${c.sym}</span>
+        <span>${fmtCoin(b.priceEur)}</span>
+        <span class="pnl-cell" style="color:${bPnl>=0?'var(--sage)':'var(--red-soft)'}">${bPnl>=0?'+':''}${fmt(Math.round(bPnl))}</span>
+        <button class="btn btn-danger" style="padding:3px 8px;font-size:11px" onclick="removeBuy(${pos.id},${i})">✕</button>
+      </div>`;
+    }).join('');
+    return `<div class="crypto-pos-card" id="crpos_${pos.id}">
+      <div class="crypto-pos-header" style="background:linear-gradient(135deg,${c.color}12,var(--gold-pale))">
+        <div class="crypto-pos-left">
+          <div style="width:40px;height:40px;border-radius:12px;background:${c.color}22;display:flex;align-items:center;justify-content:center;font-size:22px">${c.logo}</div>
+          <div>
+            <div style="font-family:'DM Serif Display',serif;font-size:1.05rem">${c.name} <span style="font-size:13px;color:var(--stone);font-family:'DM Sans',sans-serif">(${c.sym})</span></div>
+            <div style="font-size:12px;color:var(--stone)">Precio actual: <strong style="color:${c.color}">${fmtCoin(price)}</strong></div>
+          </div>
+        </div>
+        <div class="crypto-pos-right">
+          <div style="text-align:right">
+            <div style="font-family:'DM Serif Display',serif;font-size:1.4rem;color:${pnlColor}">${pnlSign}${fmt(Math.round(k.pnlAbs))}</div>
+            <div style="font-size:11px;color:${pnlColor}">${pnlSign}${k.pnlPct.toFixed(2)}% P&L total</div>
+          </div>
+          <button class="btn btn-danger" style="padding:6px 12px;font-size:12px" onclick="removeCryptoPos(${pos.id})">🗑 Eliminar</button>
+        </div>
+      </div>
+
+      <div class="pos-kpis">
+        <div class="pos-kpi"><div class="pk-label">Cantidad total</div><div class="pk-value gold">${k.totalQty.toLocaleString('es-ES',{maximumFractionDigits:8})} ${c.sym}</div><div class="pk-sub">${pos.buys.length} compra(s)</div></div>
+        <div class="pos-kpi"><div class="pk-label">Precio medio compra</div><div class="pk-value blue">${fmtCoin(k.avgBuy)}</div><div class="pk-sub">vs ${fmtCoin(price)} actual</div></div>
+        <div class="pos-kpi"><div class="pk-label">Capital invertido</div><div class="pk-value" style="color:var(--ink)">${fmt(Math.round(k.totalCost))}</div><div class="pk-sub">Coste total</div></div>
+        <div class="pos-kpi"><div class="pk-label">Valor actual</div><div class="pk-value ${k.currentVal>=k.totalCost?'pos':'neg'}">${fmt(Math.round(k.currentVal))}</div><div class="pk-sub">Al precio de mercado</div></div>
+        <div class="pos-kpi"><div class="pk-label">Ganancia / Pérdida</div><div class="pk-value ${k.pnlAbs>=0?'pos':'neg'}">${pnlSign}${fmt(Math.round(k.pnlAbs))}</div><div class="pk-sub">${pnlSign}${k.pnlPct.toFixed(2)}% sobre invertido</div></div>
+        <div class="pos-kpi"><div class="pk-label">Señal actual</div>
+          <div style="margin-top:4px">${sigHtml}</div>
+          <div class="pk-sub">${chg24txt}</div>
+        </div>
+      </div>
+
+      <!-- HISTORIAL DE COMPRAS -->
+      <div style="padding:0 18px 18px">
+        <div class="buy-history">
+          <div class="buy-history-title">📋 Historial de compras</div>
+          <div class="buy-row-head"><span>Fecha</span><span>Cantidad</span><span>Precio compra</span><span>P&L actual</span><span></span></div>
+          ${histRows}
+        </div>
+
+        <!-- AÑADIR COMPRA -->
+        <div style="margin-top:14px">
+          <div class="buy-history-title">➕ Registrar nueva compra</div>
+          <div class="add-buy-form" style="background:var(--gold-pale);border:1px solid var(--gold-mid);border-radius:var(--radius-sm);display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;padding:14px">
+            <div class="form-group"><label>Fecha</label><input type="date" id="crb_${pos.id}_date" value="${new Date().toISOString().slice(0,10)}"></div>
+            <div class="form-group"><label>Cantidad (${c.sym})</label><div class="input-prefix"><span>${c.sym}</span><input type="number" id="crb_${pos.id}_qty" placeholder="0.001" step="0.00001" min="0"></div></div>
+            <div class="form-group"><label>Precio de compra (€)</label><div class="input-prefix"><span>€</span><input type="number" id="crb_${pos.id}_price" value="${price.toFixed(2)}" step="0.01" min="0"></div></div>
+            <div class="form-group"><label>Nota (opcional)</label><input type="text" id="crb_${pos.id}_note" placeholder="Ej: DCA mensual"></div>
+            <div class="form-group" style="justify-content:flex-end">
+              <label>&nbsp;</label>
+              <button class="btn btn-primary" onclick="addBuyToCryptoPos(${pos.id})" style="padding:8px 16px;font-size:13px">✓ Registrar compra</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Crypto KPI cards ──────────────────────────────────────────────
+function renderCryptoKPIs(){
+  const row=document.getElementById('cryptoKpiRow');
+  if(!row)return;
+  if(!cryptoPortfolio.length){
+    row.innerHTML='<div style="grid-column:1/-1;color:var(--stone);font-size:13px;padding:12px 0">Añade activos a tu cartera para ver los indicadores de rendimiento.</div>';
+    return;
+  }
+  const calcs=cryptoPortfolio.map(p=>({p,k:calcPosition(p)}));
+  const totCost=calcs.reduce((s,x)=>s+x.k.totalCost,0);
+  const totVal =calcs.reduce((s,x)=>s+x.k.currentVal,0);
+  const totPnl =totVal-totCost;
+  const totPct =totCost>0?(totPnl/totCost)*100:0;
+  const bestPnl=calcs.reduce((b,x)=>x.k.pnlPct>b.k.pnlPct?x:b,calcs[0]);
+  const worstPnl=calcs.reduce((w,x)=>x.k.pnlPct<w.k.pnlPct?x:w,calcs[0]);
+  row.innerHTML=`
+    <div class="kpi-card gold"><div class="kpi-badge">₿</div><div class="label">Valor cartera crypto</div><div class="value">${fmt(Math.round(totVal))}</div><div class="sub">${cryptoPortfolio.length} activos</div></div>
+    <div class="kpi-card blue"><div class="kpi-badge">💵</div><div class="label">Capital invertido</div><div class="value">${fmt(Math.round(totCost))}</div><div class="sub">Total comprometido</div></div>
+    <div class="kpi-card ${totPnl>=0?'green':'red'}"><div class="kpi-badge">📊</div><div class="label">Ganancia / Pérdida total</div><div class="value">${totPnl>=0?'+':''}${fmt(Math.round(totPnl))}</div><div class="sub">${totPnl>=0?'+':''}${totPct.toFixed(2)}% sobre invertido</div></div>
+    <div class="kpi-card green"><div class="kpi-badge">🚀</div><div class="label">Mejor activo</div><div class="value" style="font-size:1.4rem">${bestPnl.p.coin.sym}</div><div class="sub">+${bestPnl.k.pnlPct.toFixed(1)}% P&L</div></div>
+    <div class="kpi-card ${worstPnl.k.pnlPct<0?'red':'amber'}"><div class="kpi-badge">📉</div><div class="label">Peor activo</div><div class="value" style="font-size:1.4rem">${worstPnl.p.coin.sym}</div><div class="sub">${worstPnl.k.pnlPct.toFixed(1)}% P&L</div></div>`;
+}
+
+// ── Crypto charts ─────────────────────────────────────────────────
+function renderCryptoCharts(){
+  renderCrDonut();
+  renderCrPnlChart();
+}
+
+function renderCrDonut(){
+  const ctx=document.getElementById('crChartDonut')?.getContext('2d');
+  if(!ctx)return;
+  killChart(CH.crDonut);
+  if(!cryptoPortfolio.length)return;
+  const calcs=cryptoPortfolio.map(p=>({p,k:calcPosition(p)}));
+  const labels=calcs.map(x=>x.p.coin.sym);
+  const data=calcs.map(x=>Math.max(x.k.currentVal,0));
+  const colors=calcs.map(x=>x.p.coin.color);
+  CH.crDonut=new Chart(ctx,{type:'doughnut',data:{labels,datasets:[{data,backgroundColor:colors.map(c=>c+'cc'),borderColor:colors,borderWidth:2,hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{font:{size:11,family:'DM Sans'},boxWidth:12,padding:14}},tooltip:{backgroundColor:'rgba(44,42,39,.92)',padding:12,callbacks:{label:c=>{const tot=c.dataset.data.reduce((a,b)=>a+b,0);return ` ${c.label}: ${fmt(c.raw)} (${(c.raw/tot*100).toFixed(1)}%)`;}}}}}});
+}
+
+function renderCrPnlChart(){
+  const ctx=document.getElementById('crChartPnl')?.getContext('2d');
+  if(!ctx)return;
+  killChart(CH.crPnl);
+  if(!cryptoPortfolio.length)return;
+  const calcs=cryptoPortfolio.map(p=>({p,k:calcPosition(p)}));
+  const labels=calcs.map(x=>x.p.coin.sym);
+  const pnls=calcs.map(x=>Math.round(x.k.pnlAbs));
+  const colors=pnls.map(v=>v>=0?'rgba(127,166,122,.8)':'rgba(217,95,82,.8)');
+  const borderColors=pnls.map(v=>v>=0?'#7fa67a':'#d95f52');
+  CH.crPnl=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label:'P&L (€)',data:pnls,backgroundColor:colors,borderColor:borderColors,borderWidth:1.5,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(44,42,39,.92)',padding:12,callbacks:{label:c=>` ${c.label}: ${c.raw>=0?'+':''}${fmt(c.raw)}`}}},scales:{x:{grid:{display:false},ticks:{font:{size:12}}},y:{grid:{color:'#eee'},ticks:{callback:v=>(v<0?'−':'')+compact(Math.abs(v))}}}}});
+}
+
+// ── Señales panel ─────────────────────────────────────────────────
+function renderCryptoSignals(){
+  const panel=document.getElementById('cryptoSignalsPanel');
+  if(!panel)return;
+  panel.innerHTML=COINS.map(c=>{
+    const p=cryptoPrices[c.id]; if(!p)return'';
+    const sig=getSignal(c,p);
+    const chg24=p.eur_24h_change||0, chg7=p.eur_7d_change||0;
+    const inCart=cryptoPortfolio.find(pos=>pos.coinId===c.id);
+    const bgMap={buy:'#eafaf0',sell:'#fde8e6',hold:'#f0f0ec',watch:'var(--amber-light)'};
+    const borderMap={buy:'#b7e4c7',sell:'#f0b8b3',hold:'var(--stone-light)',watch:'#f0c97a'};
+    return `<div style="background:${bgMap[sig.cls]};border:1px solid ${borderMap[sig.cls]};border-radius:var(--radius-sm);padding:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:20px">${c.logo}</span>
+          <span style="font-weight:700;font-size:14px">${c.name} <span style="font-size:11px;color:var(--stone)">${c.sym}</span></span>
+        </div>
+        <span class="signal-badge ${sig.cls}">${sig.label}</span>
+      </div>
+      <div style="font-size:12px;color:var(--ink);margin-bottom:8px">${sig.tip}</div>
+      <div style="display:flex;gap:10px;font-size:11px;flex-wrap:wrap">
+        <span><strong>${fmtCoin(p.eur)}</strong></span>
+        <span style="color:${chg24>=0?'var(--sage)':'var(--red-soft)'}">24h: ${chg24>=0?'+':''}${chg24.toFixed(2)}%</span>
+        <span style="color:${chg7>=0?'var(--sage)':'var(--red-soft)'}">7d: ${chg7>=0?'+':''}${chg7.toFixed(2)}%</span>
+        ${inCart?`<span style="color:var(--sage);font-weight:600">✓ En cartera</span>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Overview crypto totals ────────────────────────────────────────
+function getCryptoTotals(){
+  if(!cryptoPortfolio.length)return{totVal:0,totCost:0,totPnl:0};
+  const calcs=cryptoPortfolio.map(p=>({p,k:calcPosition(p)}));
+  const totCost=calcs.reduce((s,x)=>s+x.k.totalCost,0);
+  const totVal =calcs.reduce((s,x)=>s+x.k.currentVal,0);
+  return{totVal,totCost,totPnl:totVal-totCost};
+}
+
 /* ── INIT ────────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded',()=>{
   recalculate();
@@ -943,11 +1625,43 @@ document.addEventListener('DOMContentLoaded',()=>{
   // Add demo property
   addProperty({id:++propCnt,nombre:'Piso ejemplo',dir:'Calle Mayor 1',valCompra:120000,valActual:155000,alquiler:750,meses:11,pctInmob:10,comunidad:600,ibi:380,caldera:150,otros:200,hipoMens:0});
 
+  // Initialize crypto prices then add demo portfolio
+  fetchCryptoPrices().then(()=>{
+    // Demo BTC positions (DCA strategy)
+    cryptoPosIdCnt++;
+    cryptoPortfolio.push({
+      id:cryptoPosIdCnt,
+      coinId:'bitcoin',
+      coin:COINS.find(c=>c.id==='bitcoin'),
+      buys:[
+        {date:'2023-11-15',qty:0.05, priceEur:31200, note:'Primera compra DCA'},
+        {date:'2024-03-20',qty:0.03, priceEur:58400, note:'DCA marzo 2024'},
+        {date:'2024-10-10',qty:0.02, priceEur:58900, note:'DCA octubre 2024'}
+      ]
+    });
+    // Demo ETH positions
+    cryptoPosIdCnt++;
+    cryptoPortfolio.push({
+      id:cryptoPosIdCnt,
+      coinId:'ethereum',
+      coin:COINS.find(c=>c.id==='ethereum'),
+      buys:[
+        {date:'2023-12-01',qty:0.5, priceEur:1980, note:'Entrada ETH'},
+        {date:'2024-06-15',qty:0.3, priceEur:2850, note:'DCA junio 2024'}
+      ]
+    });
+    renderCryptoAll();
+    renderOverview();
+  });
+
   // Live recalc on financial inputs
   document.querySelectorAll('#pane-financiero input, #pane-financiero select').forEach(el=>{
     el.addEventListener('change',recalculate);
     el.addEventListener('input',()=>{clearTimeout(el._t);el._t=setTimeout(recalculate,400);});
   });
+
+  // Auto-refresh crypto every 2 minutes
+  setInterval(fetchCryptoPrices, 120000);
 });
 </script>
 </body>
